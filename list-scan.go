@@ -82,7 +82,7 @@ func checkVulnerability(baseURL, gCkValue string, cookies []*http.Cookie, client
 		if !listExists {
 			return vulnerableURLs, nil
 		} else if len(list) == 0 {
-			fmt.Printf("%s is EXPOSED, but data is NOT leaking likely because ACLs are blocking. Mark Widgets as not Public.\n", reqURL)
+			fmt.Printf("%s is EXPOSED, but data is NOT leaking likely because ACLs are blocking.\n", reqURL)
 		} else {
 			fmt.Printf("%s is EXPOSED, and LEAKING data. Check ACLs ASAP.\n", reqURL)
 			listJSON, err := json.Marshal(list)
