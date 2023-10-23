@@ -53,7 +53,7 @@ Data fetched from exposed tables will be saved in a separate JSON file within a 
 
 ## Credits and Acknowledgments
 
-This tool is a Go-based fork of the original Python scanner found [here](https://github.com/cpisani47/widge-simple-list-scanner/tree/main). A heartfelt thanks to the original authors and contributors of the Python tool:
+This tool is a Go-based fork of the original Python scanner found [here](https://github.com/bsysop/servicenow). A heartfelt thanks to the original authors and contributors of the Python tool:
 
 - [Christian Pisani](https://github.com/cpisani47) - Original tool creator.
 - [Aaron Costello](https://twitter.com/ConspiracyProof) - Researcher who detailed the technical aspects and exploitation method. [Website](https://www.enumerated.ie/)
