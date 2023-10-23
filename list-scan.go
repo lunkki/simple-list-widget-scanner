@@ -34,7 +34,7 @@ func checkVulnerability(baseURL, gCkValue string, cookies []*http.Cookie, client
 
 	reqURL := fmt.Sprintf("%s/api/now/sp/widget/widget-simple-list?%s", baseURL, table)
 	req, err := http.NewRequest("POST", reqURL, strings.NewReader("{}")) // Empty JSON payload
-
+	fmt.Printf("\r\033[KCurrent URL: %s", reqURL)                        // No newline character at the end
 	if err != nil {
 		return nil, err
 	}
@@ -82,9 +82,9 @@ func checkVulnerability(baseURL, gCkValue string, cookies []*http.Cookie, client
 		if !listExists {
 			return vulnerableURLs, nil
 		} else if len(list) == 0 {
-			fmt.Printf("%s is EXPOSED, but data is NOT leaking likely because ACLs are blocking.\n", reqURL)
+			fmt.Printf("\r\033[K%s is EXPOSED, but data is NOT leaking likely because ACLs are blocking.\n", reqURL)
 		} else {
-			fmt.Printf("%s is EXPOSED, and LEAKING data. Check ACLs ASAP.\n", reqURL)
+			fmt.Printf("\r\033[K%s is EXPOSED, and LEAKING data. Check ACLs ASAP.\n", reqURL)
 			listJSON, err := json.Marshal(list)
 			if err != nil {
 				fmt.Printf("Error marshaling list to JSON: %s\n", err)
@@ -274,8 +274,8 @@ func main() {
 	}
 
 	if atomic.LoadInt32(&anyVulnerable) == 1 {
-		fmt.Println("Scanning completed. Vulnerable URLs found.")
+		fmt.Println("\r\033[KScanning completed. Vulnerable URLs found.")
 	} else {
-		fmt.Println("Scanning completed. No vulnerable URLs found.")
+		fmt.Println("\r\033[KScanning completed. No vulnerable URLs found.")
 	}
 }
