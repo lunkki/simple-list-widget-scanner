@@ -11,6 +11,7 @@ import (
 	"net/http/cookiejar"
 	"net/url"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"sync"
@@ -41,6 +42,13 @@ func checkVulnerability(baseURL, gCkValue string, cookies []*http.Cookie, client
 	for _, cookie := range cookies {
 		req.AddCookie(cookie)
 	}
+
+	// Parse the baseURL to extract the subdomain as folderName
+	parsedURL, err := url.Parse(baseURL)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing URL %s: %v", baseURL, err)
+	}
+	subdomain := strings.Split(parsedURL.Hostname(), ".")[0]
 
 	req.Header.Set("X-UserToken", gCkValue)
 	req.Header.Set("Content-Type", "application/json")
@@ -84,7 +92,14 @@ func checkVulnerability(baseURL, gCkValue string, cookies []*http.Cookie, client
 			}
 
 			// Create a file with the table name
-			fileName := fmt.Sprintf("result/%s.json", strings.TrimPrefix(table, "t=")) // Extracts 'tableName' from 't=tableName'
+			dirPath := filepath.Join("result", subdomain)
+			err = os.MkdirAll(dirPath, 0755) // Creates the directory if it doesn't exist
+			if err != nil {
+				return nil, fmt.Errorf("error creating directory: %v", err)
+			}
+
+			// Construct file path with directory, subdomain, and table name
+			fileName := filepath.Join(dirPath, fmt.Sprintf("%s.json", strings.TrimPrefix(table, "t="))) // Extracts 'tableName' from 't=tableName'
 			file, err := os.Create(fileName)
 			if err != nil {
 				fmt.Printf("Error creating file: %s\n", err)
@@ -141,12 +156,14 @@ func getGCKAndCookies(urlString, proxy string) (string, []*http.Cookie, error) {
 
 	gCkValue := match[1]
 	cookies := jar.Cookies(resp.Request.URL)
-	fmt.Println("")
-	fmt.Printf("X-UserToken: %s", gCkValue)
-	fmt.Println("")
-	fmt.Printf("Cookie: %s", cookies)
-	fmt.Println("")
-	fmt.Println("")
+	cookieStrings := make([]string, len(cookies))
+	for i, cookie := range cookies {
+		// String() method of http.Cookie returns the serialized cookie
+		cookieStrings[i] = cookie.String()
+	}
+	cookieHeader := strings.Join(cookieStrings, "; ")
+	fmt.Printf("X-UserToken: %s\n", gCkValue)
+	fmt.Printf("Cookie: %s\n\n\n", cookieHeader)
 
 	return gCkValue, cookies, nil
 }
