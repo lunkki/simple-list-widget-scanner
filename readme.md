@@ -55,9 +55,10 @@ Data fetched from exposed tables will be saved in a separate JSON file within a 
 
 This tool is a Go-based fork of the original Python scanner found [here](https://github.com/bsysop/servicenow). A heartfelt thanks to the original authors and contributors of the Python tool:
 
+- [Lauri Alakulppi](https://www.linkedin.com/in/lauri-alakulppi-81079a143/) - Creator of this tool
 - [Christian Pisani](https://github.com/cpisani47) - Original tool creator.
 - [Aaron Costello](https://twitter.com/ConspiracyProof) - Researcher who detailed the technical aspects and exploitation method. [Website](https://www.enumerated.ie/)
-- [Others](#) - Additional contributors from the Python tool. (Add if there are more known contributors)
+- [Others](https://github.com/bsysop/servicenow) - Additional contributors from the Python tool.
 
 The development of this Go version was inspired by the structure, concept, and functionality of the Python project. This version is intended to provide a similar utility in the Go programming environment.
 
