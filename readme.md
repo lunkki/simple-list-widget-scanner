@@ -1,7 +1,7 @@
   
   
 
-# ServiceNow Simple-List Widge Misconfiguration Scanner in Go
+# ServiceNow Simple-List Widget Misconfiguration Scanner in Go
 
 ## Overview
 
